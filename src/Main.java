@@ -2,6 +2,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
@@ -28,6 +29,8 @@ public class Main {
 
 	  */
         ArrayList<Integer> diceList = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        int score = 0;
 
         while (true) {
             int storedDices = diceList.size(); //how many dices were stored from the round before. Will be zero for a new round.
@@ -41,11 +44,27 @@ public class Main {
 
             int sum = checkDicesForScores(diceList, storedDices);
             if (sum == 0){
-                System.out.println("Your turn is over.");
+                System.out.println("\nYour turn is over.");
+                break;
             }
             else {
-                System.out.println("Your score: " +sum);
-        }
+                score += sum;
+                while (true) {
+                    System.out.print("\nYour score this round: " + sum + ". Store score(s) or Roll again (r)");
+                    String userInput = scanner.next();
+                    if(userInput.equals("s"))  {
+                        System.out.println("Save score");
+                        break;
+                    }
+                    if(userInput.equals("r")) {
+                        System.out.println("Roll again!");
+
+                    }
+                }
+
+
+            }
+
 
 
 
@@ -55,7 +74,7 @@ public class Main {
 
     }
 
-        //new GameBoard();
+
         
     }
 
