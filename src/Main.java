@@ -1,4 +1,7 @@
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
@@ -24,33 +27,95 @@ public class Main {
 	  ____________________________
 
 	  */
-        ArrayList<Integer> diceList = new ArrayList<Integer>();
+        ArrayList<Integer> diceList = new ArrayList<>();
 
-        diceList = rollDices(diceList);
+        while (true) {
+            int storedDices = diceList.size(); //how many dices were stored from the round before. Will be zero for a new round.
 
-        for (int i = 0; i < diceList.size(); i++) {
-            System.out.print(diceList.get(i) + " - ");
+            diceList = rollDices(diceList);
+
+            for (int i = 0; i < diceList.size(); i++) {
+                System.out.print(diceList.get(i) + " - ");
+            }
+            System.out.print("\b\b");
+
+            int sum = checkDicesForScores(diceList, storedDices);
+            if (sum == 0){
+                System.out.println("Your turn is over.");
+            }
+            else {
+                System.out.println("Your score: " +sum);
         }
-        System.out.print("\b\b");
 
 
-	/*
 
 
-	while (true) {
+
+
 
     }
- */
+
         //new GameBoard();
         
     }
 
-    public static ArrayList<Integer> rollDices( ArrayList<Integer> diceList) {
+    private static ArrayList<Integer> rollDices( ArrayList<Integer> diceList) {
         int listSize = diceList.size();
         for (int i = 0; i < (6 - listSize); i ++){
             diceList.add(ThreadLocalRandom.current().nextInt(1, 7));
         }
         return diceList;
     }
-    
+
+    private static int checkDicesForScores(List<Integer> diceList, int storedDices) {
+        int sum = 0;
+        List<Integer> newDices = diceList.subList(storedDices, diceList.size());
+
+
+        int numberDice1 = Collections.frequency(newDices, 1);
+        int numberDice2 = Collections.frequency(newDices, 2);
+        int numberDice3 = Collections.frequency(newDices, 3);
+        int numberDice4 = Collections.frequency(newDices, 4);
+        int numberDice5 = Collections.frequency(newDices, 5);
+        int numberDice6 = Collections.frequency(newDices, 6);
+
+
+        if (numberDice1 == 3) { sum += 1000; }
+        if (numberDice1 == 4) { sum += 2000; }
+        if (numberDice1 == 5) { sum += 4000; }
+        if (numberDice1 == 6) { sum += 8000; }
+
+        if (numberDice2 == 3) { sum += 200; }
+        if (numberDice2 == 4) { sum += 400; }
+        if (numberDice2 == 5) { sum += 800; }
+        if (numberDice2 == 6) { sum += 1600; }
+
+        if (numberDice3 == 3) { sum += 300; }
+        if (numberDice3 == 4) { sum += 600; }
+        if (numberDice3 == 5) { sum += 900; }
+        if (numberDice3 == 6) { sum += 1800; }
+
+        if (numberDice4 == 3) { sum += 400; }
+        if (numberDice4 == 4) { sum += 800; }
+        if (numberDice4 == 5) { sum += 1600; }
+        if (numberDice4 == 6) { sum += 3200; }
+
+        if (numberDice5 == 3) { sum += 500; }
+        if (numberDice5 == 4) { sum += 1000; }
+        if (numberDice5 == 5) { sum += 2000; }
+        if (numberDice5 == 6) { sum += 4000; }
+
+        if (numberDice6 == 3) { sum += 600; }
+        if (numberDice6 == 4) { sum += 1200; }
+        if (numberDice6 == 5) { sum += 2400; }
+        if (numberDice6 == 6) { sum += 4800; }
+
+        if (numberDice1 == 1 && numberDice2 == 1 && numberDice3 == 1 && numberDice4 == 1 && numberDice5 == 1 && numberDice6 == 1) {
+            sum += 1500;
+        }
+        else if (numberDice1 == 1) { sum += 100; }
+        else if (numberDice6 == 1) { sum += 100; }
+
+    return sum;
+    }
 }
