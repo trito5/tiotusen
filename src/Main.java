@@ -60,8 +60,11 @@ public class Main {
                     if(userInput.equals("s"))  {
                         score += roundSum;
                         System.out.println("Save scores. Your total score is " + score + ".");
-
+                        diceList.clear();
+                        sum = 0;
+                        roundSum = 0;
                         break;
+
                     }
                     if(userInput.equals("r")) {
                         System.out.println("Roll again!");
@@ -130,7 +133,8 @@ public class Main {
                 }
 
                 if (numberDice == 3 || numberDice == 4 ||numberDice == 5 || numberDice == 6){
-                    sum+= multifier * Math.pow(2, numberDice - 3);
+                    sum+= i * multifier * Math.pow(2, numberDice - 3);
+                    // 3 st 2:or blev 100..
                     // 100* 5^2          500
                     // 5 * 100 * 2^1    1000 Math.pow(2, numberDice - 3)
                     // 5 * 100 * 2^2    2000
