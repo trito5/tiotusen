@@ -6,7 +6,9 @@ import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
-    	/*Roll 6 dices. Store the dices that gives you scores. Decide if you want to stop and get the score. Or, roll the
+
+    public static void main(String[] args) {
+	/*Roll 6 dices. Store the dices that gives you scores. Decide if you want to stop and get the score. Or, roll the
 	 rest of the dices to try and get more score. As long as you get at least one dice that gives a score you can
 	 continue deciding if you want to quit your turn and store the score, or roll the rest of the dices. If you have
 	 scores on all 6 dices, you get to roll them all six again. If you, in one roll, receive no scoring dices, you will
@@ -26,12 +28,9 @@ public class Main {
 	  ____________________________
 
 	  */
-
-    public static void main(String[] args) {
-        Player player1 = new Player();
         ArrayList<Integer> diceList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
-
+        int score = 0;
 
         while (true) {
             int storedDices = diceList.size(); //how many dices were stored from the round before. Will be zero for a new round.
@@ -46,34 +45,27 @@ public class Main {
             int sum = checkDicesForScores(diceList, storedDices);
             if (sum == 0){
                 System.out.println("\nYour turn is over.");
-                storedDices = 0;
                 break;
             }
             else {
-                score += sum;
+
                 while (true) {
                     System.out.print("\nYour score this round: " + sum + ". Store score(s) or Roll again (r)");
                     String userInput = scanner.next();
                     if(userInput.equals("s"))  {
-                        System.out.println("Save score");
+                        score += sum;
+                        System.out.println("Save scores. Your total score is " + score + ".");
+
                         break;
                     }
                     if(userInput.equals("r")) {
                         System.out.println("Roll again!");
 
-
+                        
                     }
                 }
 
-
             }
-
-
-
-
-
-
-
 
     }
 
@@ -92,7 +84,15 @@ public class Main {
     private static int checkDicesForScores(List<Integer> diceList, int storedDices) {
         int sum = 0;
         List<Integer> newDices = diceList.subList(storedDices, diceList.size());
-        storedDices = diceList.size() - newDices.size();
+
+
+        List<Integer> oldDices;
+        if (storedDices > 0) {
+            oldDices = diceList.subList(0, storedDices);
+        }
+
+
+
 
         int numberDice1 = Collections.frequency(newDices, 1);
         int numberDice2 = Collections.frequency(newDices, 2);
@@ -101,12 +101,26 @@ public class Main {
         int numberDice5 = Collections.frequency(newDices, 5);
         int numberDice6 = Collections.frequency(newDices, 6);
 
+        for (int i = 1; i<= 6; i++) {
+            int numberDice = Collections.frequency(newDices, i);
+            int multifier = 100;
+            if (i == 1) {
+                multifier = 1000;
+            }
+
+            if (numberDice == 3 || numberDice == 4 ||numberDice == 5 || numberDice == 6){
+                sum+= multifier * Math.pow(i, numberDice - 2);
+                //storeDices(1, numberDice);
+            }
+        }
+
+
 
         if (numberDice1 == 3) { sum += 1000; }
         if (numberDice1 == 4) { sum += 2000; }
         if (numberDice1 == 5) { sum += 4000; }
         if (numberDice1 == 6) { sum += 8000; }
-
+/*
         if (numberDice2 == 3) { sum += 200; }
         if (numberDice2 == 4) { sum += 400; }
         if (numberDice2 == 5) { sum += 800; }
@@ -131,13 +145,27 @@ public class Main {
         if (numberDice6 == 4) { sum += 1200; }
         if (numberDice6 == 5) { sum += 2400; }
         if (numberDice6 == 6) { sum += 4800; }
-
+        */
         if (numberDice1 == 1 && numberDice2 == 1 && numberDice3 == 1 && numberDice4 == 1 && numberDice5 == 1 && numberDice6 == 1) {
             sum += 1500;
         }
-        else if (numberDice1 == 1) { sum += 100; }
-        else if (numberDice6 == 1) { sum += 100; }
-
+        else {
+            if (numberDice1 == 1) {
+                sum += 100;
+            }
+            if (numberDice1 == 2) {
+                sum += 200;
+            }
+            if (numberDice5 == 1) {
+                sum += 50;
+            }
+            if (numberDice5 == 2) {
+                sum += 100;
+            }
+        }
     return sum;
     }
+
+
+
 }
