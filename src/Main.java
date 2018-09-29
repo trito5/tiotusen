@@ -32,6 +32,7 @@ public class Main {
         ArrayList<Integer> diceList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         int score = 0;
+        int roundSum = 0;
 
         while (true) {
             int storedDices = diceList.size(); //how many dices were stored from the round before. Will be zero for a new round.
@@ -44,6 +45,8 @@ public class Main {
             System.out.print("\b\b");
 
             int sum = checkDicesForScores(diceList, storedDices);
+
+
             if (sum == 0){
                 System.out.println("\nYour turn is over.");
                 break;
@@ -51,10 +54,11 @@ public class Main {
             else {
 
                 while (true) {
-                    System.out.print("\nYour score this round: " + sum + ". Store score(s) or Roll again (r)");
+                    System.out.print("\nYour score this round: " + roundSum + " + " + sum + " = " + (roundSum + sum) +". Store score(s) or Roll again (r)");
+                    roundSum = roundSum + sum;
                     String userInput = scanner.next();
                     if(userInput.equals("s"))  {
-                        score += sum;
+                        score += roundSum;
                         System.out.println("Save scores. Your total score is " + score + ".");
 
                         break;
@@ -126,9 +130,11 @@ public class Main {
                 }
 
                 if (numberDice == 3 || numberDice == 4 ||numberDice == 5 || numberDice == 6){
-                    sum+= multifier * Math.pow(i, numberDice - 2);
-
-                    //oldDices = storeDices(i, numberDice, oldDices);
+                    sum+= multifier * Math.pow(2, numberDice - 3);
+                    // 100* 5^2          500
+                    // 5 * 100 * 2^1    1000 Math.pow(2, numberDice - 3)
+                    // 5 * 100 * 2^2    2000
+                    // 5 * 100 * 2^3    4000
                     for (int j = 1; j <= numberDice; j++) {
                         oldDices.add(i);
                     }
