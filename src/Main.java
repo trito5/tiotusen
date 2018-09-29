@@ -1,4 +1,5 @@
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,6 +61,7 @@ public class Main {
                     }
                     if(userInput.equals("r")) {
                         System.out.println("Roll again!");
+                        break;
 
                         
                     }
@@ -83,16 +85,19 @@ public class Main {
 
     private static int checkDicesForScores(List<Integer> diceList, int storedDices) {
         int sum = 0;
-        List<Integer> newDices = diceList.subList(storedDices, diceList.size());
-
-
-        List<Integer> oldDices;
-        if (storedDices > 0) {
-            oldDices = diceList.subList(0, storedDices);
+        //List<Integer> newDices = diceList.subList(storedDices, diceList.size());
+        ArrayList<Integer> newDices = new ArrayList<>();
+        for( int i = storedDices; i < diceList.size(); i ++) {
+            newDices.add(diceList.get(i));
         }
 
-
-
+        List<Integer> oldDices = new ArrayList<>();
+        if (storedDices > 0) {
+            for( int i = 0; i < storedDices; i ++) {
+                oldDices.add(diceList.get(i));
+            }
+            //oldDices = diceList.subList(0, storedDices);
+        }
 
         int numberDice1 = Collections.frequency(newDices, 1);
         int numberDice2 = Collections.frequency(newDices, 2);
@@ -101,70 +106,67 @@ public class Main {
         int numberDice5 = Collections.frequency(newDices, 5);
         int numberDice6 = Collections.frequency(newDices, 6);
 
-        for (int i = 1; i<= 6; i++) {
-            int numberDice = Collections.frequency(newDices, i);
-            int multifier = 100;
-            if (i == 1) {
-                multifier = 1000;
-            }
-
-            if (numberDice == 3 || numberDice == 4 ||numberDice == 5 || numberDice == 6){
-                sum+= multifier * Math.pow(i, numberDice - 2);
-                //storeDices(1, numberDice);
-            }
-        }
-
-
-
-        if (numberDice1 == 3) { sum += 1000; }
-        if (numberDice1 == 4) { sum += 2000; }
-        if (numberDice1 == 5) { sum += 4000; }
-        if (numberDice1 == 6) { sum += 8000; }
-/*
-        if (numberDice2 == 3) { sum += 200; }
-        if (numberDice2 == 4) { sum += 400; }
-        if (numberDice2 == 5) { sum += 800; }
-        if (numberDice2 == 6) { sum += 1600; }
-
-        if (numberDice3 == 3) { sum += 300; }
-        if (numberDice3 == 4) { sum += 600; }
-        if (numberDice3 == 5) { sum += 900; }
-        if (numberDice3 == 6) { sum += 1800; }
-
-        if (numberDice4 == 3) { sum += 400; }
-        if (numberDice4 == 4) { sum += 800; }
-        if (numberDice4 == 5) { sum += 1600; }
-        if (numberDice4 == 6) { sum += 3200; }
-
-        if (numberDice5 == 3) { sum += 500; }
-        if (numberDice5 == 4) { sum += 1000; }
-        if (numberDice5 == 5) { sum += 2000; }
-        if (numberDice5 == 6) { sum += 4000; }
-
-        if (numberDice6 == 3) { sum += 600; }
-        if (numberDice6 == 4) { sum += 1200; }
-        if (numberDice6 == 5) { sum += 2400; }
-        if (numberDice6 == 6) { sum += 4800; }
-        */
         if (numberDice1 == 1 && numberDice2 == 1 && numberDice3 == 1 && numberDice4 == 1 && numberDice5 == 1 && numberDice6 == 1) {
             sum += 1500;
+            oldDices.add(1);
+            oldDices.add(2);
+            oldDices.add(3);
+            oldDices.add(4);
+            oldDices.add(5);
+            oldDices.add(6);
+
         }
         else {
+
+            for (int i = 1; i<= 6; i++) {
+                int numberDice = Collections.frequency(newDices, i);
+                int multifier = 100;
+                if (i == 1) {
+                    multifier = 1000;
+                }
+
+                if (numberDice == 3 || numberDice == 4 ||numberDice == 5 || numberDice == 6){
+                    sum+= multifier * Math.pow(i, numberDice - 2);
+
+                    //oldDices = storeDices(i, numberDice, oldDices);
+                    for (int j = 1; j <= numberDice; j++) {
+                        oldDices.add(i);
+                    }
+
+                }
+            }
+
             if (numberDice1 == 1) {
                 sum += 100;
+                oldDices.add(1);
             }
             if (numberDice1 == 2) {
                 sum += 200;
+                oldDices.add(1);
+                oldDices.add(1);
             }
             if (numberDice5 == 1) {
                 sum += 50;
+                oldDices.add(5);
             }
             if (numberDice5 == 2) {
                 sum += 100;
+                oldDices.add(5);
+                oldDices.add(5);
             }
         }
-    return sum;
+        diceList.clear();
+
+       // diceList.addAll(oldDices);
+
+        if (oldDices.size() != 6) {
+            for (Integer dice : oldDices) {
+                diceList.add(dice);
+            }
+        }
+        return sum;
     }
+
 
 
 
