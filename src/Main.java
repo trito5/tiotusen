@@ -6,9 +6,7 @@ import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
-
-    public static void main(String[] args) {
-	/*Roll 6 dices. Store the dices that gives you scores. Decide if you want to stop and get the score. Or, roll the
+    	/*Roll 6 dices. Store the dices that gives you scores. Decide if you want to stop and get the score. Or, roll the
 	 rest of the dices to try and get more score. As long as you get at least one dice that gives a score you can
 	 continue deciding if you want to quit your turn and store the score, or roll the rest of the dices. If you have
 	 scores on all 6 dices, you get to roll them all six again. If you, in one roll, receive no scoring dices, you will
@@ -28,9 +26,12 @@ public class Main {
 	  ____________________________
 
 	  */
+
+    public static void main(String[] args) {
+        Player player1 = new Player();
         ArrayList<Integer> diceList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
-        int score = 0;
+
 
         while (true) {
             int storedDices = diceList.size(); //how many dices were stored from the round before. Will be zero for a new round.
@@ -45,6 +46,7 @@ public class Main {
             int sum = checkDicesForScores(diceList, storedDices);
             if (sum == 0){
                 System.out.println("\nYour turn is over.");
+                storedDices = 0;
                 break;
             }
             else {
@@ -58,6 +60,7 @@ public class Main {
                     }
                     if(userInput.equals("r")) {
                         System.out.println("Roll again!");
+
 
                     }
                 }
@@ -89,7 +92,7 @@ public class Main {
     private static int checkDicesForScores(List<Integer> diceList, int storedDices) {
         int sum = 0;
         List<Integer> newDices = diceList.subList(storedDices, diceList.size());
-
+        storedDices = diceList.size() - newDices.size();
 
         int numberDice1 = Collections.frequency(newDices, 1);
         int numberDice2 = Collections.frequency(newDices, 2);
