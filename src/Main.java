@@ -33,12 +33,16 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int score = 0;
         int roundSum = 0;
+        boolean gameOver = false;
 
-        while (true) {
+        while (!gameOver) {
             int storedDices = diceList.size(); //how many dices were stored from the round before. Will be zero for a new round.
 
+            if (roundSum == 0) {
+                System.out.println("*** Game 10.000 ,new round ***");
+            }
             diceList = rollDices(diceList);
-
+            System.out.print("\nYour dices: ");
             for (int i = 0; i < diceList.size(); i++) {
                 System.out.print(diceList.get(i) + " - ");
             }
@@ -48,21 +52,33 @@ public class Main {
 
 
             if (sum == 0){
-                System.out.println("\nYour turn is over.");
-                break;
+                System.out.println("\n\nSorry, no scores. You are loosing your round score of " + roundSum +". \nPress any key + enter to roll all dices.");
+                roundSum = 0;
+                sum = 0;
+                diceList.clear();
+                scanner.next();
             }
             else {
 
                 while (true) {
-                    System.out.print("\nYour score this round: " + roundSum + " + " + sum + " = " + (roundSum + sum) +". Store score(s) or Roll again (r)");
+                    System.out.print("\n\nYour score this round: " + roundSum + " + " + sum + " = " + (roundSum + sum) +". Store score(s) or Roll again (r)");
                     roundSum = roundSum + sum;
                     String userInput = scanner.next();
                     if(userInput.equals("s"))  {
                         score += roundSum;
-                        System.out.println("Save scores. Your total score is " + score + ".");
-                        diceList.clear();
-                        sum = 0;
-                        roundSum = 0;
+                        if (!checkWinner(score)) {
+                            System.out.println("\n-------------------------------------------------");
+                            System.out.println("Save scores. Your total score is " + score + ".");
+                            System.out.println("-------------------------------------------------\n");
+                            System.out.print("Press any key and enter to roll again.\n");
+                            diceList.clear();
+                            sum = 0;
+                            roundSum = 0;
+                            scanner.next();
+                        } else {
+                            System.out.println("You won! Your score is " + score + ". Congratulations!");
+                            gameOver = true;
+                        }
                         break;
 
                     }
@@ -175,6 +191,15 @@ public class Main {
             }
         }
         return sum;
+    }
+
+    public static boolean checkWinner(int score) {
+        if (score >= 10000) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 
