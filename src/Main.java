@@ -9,11 +9,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Main {
 
     public static void main(String[] args) {
-	/*Roll 6 dices. Store the dices that gives you scores. Decide if you want to stop and get the score. Or, roll the
-	 rest of the dices to try and get more score. As long as you get at least one dice that gives a score you can
-	 continue deciding if you want to quit your turn and store the score, or roll the rest of the dices. If you have
-	 scores on all 6 dices, you get to roll them all six again. If you, in one roll, receive no scoring dices, you will
-	 loose all your points won in your turn and the turn is over. When you have 10.000 scores you win.
+	/*Roll 6 dices. Store the dices that gives you scores. Decide if you want to stop and bank the score. Or, roll the
+	 rest of the dices to try and get more score. As long as you get at least one dice that gives score you can
+	 continue. If all 6 dices give scores, you get to roll them all again. If you, in one roll, receive only no scoring
+	 dices, you will loose all your points won in your turn and the turn is over. When you have 10.000 scores in total
+	 you win.
       ----------------------------
 	  POSSIBLE SCORES
 	  ----------------------------
