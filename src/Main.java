@@ -150,11 +150,7 @@ public class Main {
 
                 if (numberDice == 3 || numberDice == 4 ||numberDice == 5 || numberDice == 6){
                     sum+= i * multifier * Math.pow(2, numberDice - 3);
-                    // 3 st 2:or blev 100..
-                    // 100* 5^2          500
-                    // 5 * 100 * 2^1    1000 Math.pow(2, numberDice - 3)
-                    // 5 * 100 * 2^2    2000
-                    // 5 * 100 * 2^3    4000
+                
                     for (int j = 1; j <= numberDice; j++) {
                         oldDices.add(i);
                     }
