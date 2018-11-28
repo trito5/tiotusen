@@ -29,7 +29,7 @@ public class Main {
 	  ____________________________
 
 	  */
-        ArrayList<Integer> diceList = new ArrayList<>();
+        List<Integer> diceList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         int score = 0;
         int roundSum = 0;
@@ -98,7 +98,7 @@ public class Main {
         
     }
 
-    private static ArrayList<Integer> rollDices( ArrayList<Integer> diceList) {
+    private static List<Integer> rollDices(List<Integer> diceList) {
         int listSize = diceList.size();
         for (int i = 0; i < (6 - listSize); i ++){
             diceList.add(ThreadLocalRandom.current().nextInt(1, 7));
@@ -108,8 +108,7 @@ public class Main {
 
     private static int checkDicesForScores(List<Integer> diceList, int storedDices) {
         int sum = 0;
-        //List<Integer> newDices = diceList.subList(storedDices, diceList.size());
-        ArrayList<Integer> newDices = new ArrayList<>();
+        List<Integer> newDices = new ArrayList<>();
         for( int i = storedDices; i < diceList.size(); i ++) {
             newDices.add(diceList.get(i));
         }
